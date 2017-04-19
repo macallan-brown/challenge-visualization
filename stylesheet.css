@@ -1,0 +1,11 @@
+.varlabel{
+  font-size: 30px;
+  text-align: center;
+  background-color: #a9bbd8;
+  height: 200px;
+  width: 200px;
+  padding: 0px;
+}
+td{
+  vertical-align: top;
+}

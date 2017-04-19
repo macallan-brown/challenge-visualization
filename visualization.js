@@ -14,16 +14,31 @@ d3.csv('challenger.csv', function(csvData) {
     //Size the Div that contains everything
 
 
-    //TODO: need to set xval and yval dynamically
 
     for (var x in vals) {
       tableRow = d3.select('#visSVG1').append('tr:tr');
       for(var y in vals) {
         if(y == x) {
-          title = tableRow.append('div:div')
+          titleText = '';
+          switch (xVal) {
+            case 'flight_index':
+              titleText = 'Flight Index';
+              break;
+            case 'num_o_ring_distress':
+              titleText = 'Number of O-Rings Distressed';
+              break;
+            case 'launch_temp':
+              titleText = 'Launch Temperature';
+              break;
+            default:
+              titleText = 'Leak Check Pressure';
+          }
+          tableItem = tableRow.append('td:td');
+          title = tableItem.append('div:div')
                 .attr('width', widthEach)
                 .attr('height', heightEach)
-                .text(xVal);
+                .attr('class', 'varlabel')
+                .text(titleText);
         } else {
           tableItem = tableRow.append('td:td');
           svg = tableItem.append('svg:svg')
