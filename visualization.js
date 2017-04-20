@@ -14,6 +14,8 @@ d3.csv('challenger.csv', function(csvData) {
     for (var x in vals) {
       tableRow = d3.select('#visSVG1').append('tr:tr');
       for(var y in vals) {
+        xVal = vals[y];
+        yVal = vals[x];
         if(y == x) {
           titleText = '';
           switch (xVal) {
@@ -42,8 +44,7 @@ d3.csv('challenger.csv', function(csvData) {
                 .attr('height', heightEach)
                 .attr('class', 'scatterplot');
 
-          xVal = vals[y];
-          yVal = vals[x];
+
 
           xScale = d3.scale.linear()
                   .domain([d3.min(data, function(d) { return parseFloat(d[xVal]); })-1,
