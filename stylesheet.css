@@ -5,7 +5,20 @@
   height: 200px;
   width: 200px;
   padding: 0px;
+  display: table-cell;
+  vertical-align: middle;
 }
+
 td{
   vertical-align: top;
+}
+
+.axis path,
+.axis line {
+  fill: #a9bbd8;
+  stroke: grey;
+  shape-rendering: crispEdges;
+}
+.tick line {
+  opacity: 0.2;
 }
