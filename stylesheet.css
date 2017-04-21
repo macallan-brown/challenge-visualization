@@ -12,13 +12,20 @@
 td{
   vertical-align: top;
 }
-
 .axis path,
 .axis line {
   fill: #a9bbd8;
   stroke: grey;
   shape-rendering: crispEdges;
 }
+
+
+.axisMiddle line {
+  fill: #a9bbd8;
+  stroke: grey;
+  shape-rendering: crispEdges;
+}
+
 .tick line {
   opacity: 0.2;
 }
