@@ -66,22 +66,22 @@ d3.csv('challenger.csv', function(csvData) {
                 .attr('cx', function(d) {return xScale(d[xVal]); })
                 .attr('cy', function(d) {return yScale(d[yVal]); })
                 .attr('r', 3)
-                .attr("class", function(d) { return 'p' + d['flight_index']; })
+                .attr("class", function(d) { return 'p' + d['flight_index'] + ' ' + 'g' + xVal + yVal; })
                 .on('mouseover', function(d) {
                     d3.select(this).append('svg:title')
                       .style('font-size', '50px')
                       .style('color', '#fff000')
-                      .text(function(d){return ("hello");});
+                      .text(getSpecificValuesForChart(this.classList));
                     d3.selectAll('.p' + d['flight_index'])
                         .transition()
                         .duration(500)
-                        .attr('r', '5');
+                        .attr('r', '6');
                     //console.log(d3.selectAll('circle').selectAll('p' + d['flight_index']));
                 })
                 .on('mouseout', function(d) {
                     d3.selectAll('.p' + d['flight_index'])
                         .transition()
-                        .duration(500)
+                        .duration(500) 
                         .attr('r', '3');
                 });
         }
@@ -90,6 +90,22 @@ d3.csv('challenger.csv', function(csvData) {
 
 
 });
+
+//Get the chart that is responsible for the data
+function getSpecificValuesForChart(chartString){
+    switch(chartString.contains('glaunch_tempflight_index')) {
+    case n:
+        code block
+        break;
+    case n:
+        code block
+        break;
+    default:
+        code block
+}
+    console.log(chartString);
+    
+}
 
 //Sets up the axis and labels for the axis depending on which chart it is.
 function setXAxis(x) {
