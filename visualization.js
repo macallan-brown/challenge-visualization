@@ -44,8 +44,6 @@ d3.csv('challenger.csv', function(csvData) {
                 .attr('height', heightEach)
                 .attr('class', 'scatterplot');
 
-
-
           xScale = d3.scale.linear()
                   .domain([d3.min(data, function(d) { return parseFloat(d[xVal]); })-1,
                       d3.max(data, function(d) { return parseFloat(d[xVal]); })+1])
@@ -56,64 +54,10 @@ d3.csv('challenger.csv', function(csvData) {
                       d3.max(data, function(d) { return parseFloat(d[yVal]); })+1])
                   .range([heightEach - xOffset - margin, margin + xOffset]);
 
-          //Build the axes
-          //TODO: axis must change depending on which chart
-          //TODO: create css class for axis, label
 
-
-          if(x == 0){
-            xAxis = d3.svg.axis()
-                  .scale(xScale)
-                  .orient('top')
-                  .innerTickSize(-heightEach)
-                  .outerTickSize(0)
-                  .ticks(4);
-
-            xAxisG = svg.append('g')
-                  .attr('class', 'axis')
-                  .attr('transform', 'translate(0,' + xOffset + ')')
-                  .call(xAxis);
-          } else if(x == 3){
-            xAxis = d3.svg.axis()
-                  .scale(xScale)
-                  .orient('bottom')
-                  .innerTickSize(-heightEach)
-                  .outerTickSize(0)
-                  .ticks(4);
-
-            xAxisG = svg.append('g')
-                  .attr('class', 'axis')
-                  .attr('transform', 'translate(0,' + (heightEach - xOffset) + ')')
-                  .call(xAxis);
-          }
-          if(y == 0){
-            yAxis = d3.svg.axis()
-                  .scale(yScale)
-                  .orient('left')
-                  .innerTickSize(-widthEach)
-                  .outerTickSize(0)
-                  .ticks(4);
-
-            yAxisG = svg.append('g')
-                  .attr('class', 'axis')
-                  .attr('transform', 'translate(' + yOffset + ',0)')
-                  .call(yAxis);
-
-          } else if (y == 3) {
-            yAxis = d3.svg.axis()
-                  .scale(yScale)
-                  .orient('right')
-                  .innerTickSize(-(widthEach))
-                  .outerTickSize(0)
-                  .ticks(4);
-
-            yAxisG = svg.append('g')
-                  .attr('class', 'axis')
-                  .attr('transform', 'translate(' + (widthEach - xOffset)+ ',0)')
-                  .call(yAxis);
-          }
-
-
+          setXAxis(x);
+          setYAxis(y);
+          d3.selectAll('.axisMiddle').selectAll('.tick').selectAll('text').remove();
 
           var circle = svg.selectAll('circle')
                 .data(data);
@@ -122,10 +66,98 @@ d3.csv('challenger.csv', function(csvData) {
                 .attr('cx', function(d) {return xScale(d[xVal]); })
                 .attr('cy', function(d) {return yScale(d[yVal]); })
                 .attr('r', 3)
-                //.style('fill', '#000000');
+                .attr("class", function(d) { return 'p' + d['flight_index']; })
+                .on('mouseover', function(d) {
+                    d3.select(this).append('svg:title')
+                      .style('font-size', '50px')
+                      .style('color', '#fff000')
+                      .text(function(d){return ("");});
+                    console.log(d3.selectAll('circle').selectAll('p' + d['flight_index']));
+                });
         }
       }
     }
 
 
 });
+
+//Sets up the axis and labels for the axis depending on which chart it is.
+function setXAxis(x) {
+  if(x == 0){
+    xAxis = d3.svg.axis()
+          .scale(xScale)
+          .orient('top')
+          .innerTickSize(-heightEach)
+          .outerTickSize(0)
+          .ticks(4);
+
+    xAxisG = svg.append('g')
+          .attr('class', 'axis')
+          .attr('transform', 'translate(0,' + xOffset + ')')
+          .call(xAxis);
+  } else if(x == 3){
+    xAxis = d3.svg.axis()
+          .scale(xScale)
+          .orient('bottom')
+          .innerTickSize(-heightEach)
+          .outerTickSize(0)
+          .ticks(4);
+
+    xAxisG = svg.append('g')
+          .attr('class', 'axis')
+          .attr('transform', 'translate(0,' + (heightEach - xOffset) + ')')
+          .call(xAxis);
+  } else {
+    xAxis = d3.svg.axis()
+          .scale(xScale)
+          .orient('bottom')
+          .innerTickSize(-heightEach)
+          .outerTickSize(0)
+          .ticks(4);
+    xAxisG = svg.append('g')
+          .attr('class', 'axisMiddle')
+          .attr('transform', 'translate(0,' + (heightEach - xOffset) + ')')
+          .call(xAxis);
+  }
+}
+
+function setYAxis(y) {
+  if(y == 0){
+    yAxis = d3.svg.axis()
+          .scale(yScale)
+          .orient('left')
+          .innerTickSize(-widthEach)
+          .outerTickSize(0)
+          .ticks(4);
+
+    yAxisG = svg.append('g')
+          .attr('class', 'axis')
+          .attr('transform', 'translate(' + yOffset + ',0)')
+          .call(yAxis);
+
+  } else if (y == 3) {
+    yAxis = d3.svg.axis()
+          .scale(yScale)
+          .orient('right')
+          .innerTickSize(-(widthEach))
+          .outerTickSize(0)
+          .ticks(4);
+
+    yAxisG = svg.append('g')
+          .attr('class', 'axis')
+          .attr('transform', 'translate(' + (widthEach - xOffset)+ ',0)')
+          .call(yAxis);
+  } else {
+    yAxis = d3.svg.axis()
+          .scale(yScale)
+          .orient('right')
+          .innerTickSize(-(widthEach))
+          .outerTickSize(0)
+          .ticks(4);
+
+    yAxisG = svg.append('g')
+          .attr('class', 'axisMiddle')
+          .attr('transform', 'translate(' + (widthEach - xOffset)+ ',0)')
+          .call(yAxis);
+  }
+}
