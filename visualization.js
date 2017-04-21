@@ -71,8 +71,18 @@ d3.csv('challenger.csv', function(csvData) {
                     d3.select(this).append('svg:title')
                       .style('font-size', '50px')
                       .style('color', '#fff000')
-                      .text(function(d){return ("");});
-                    console.log(d3.selectAll('circle').selectAll('p' + d['flight_index']));
+                      .text(function(d){return ("hello");});
+                    d3.selectAll('.p' + d['flight_index'])
+                        .transition()
+                        .duration(500)
+                        .attr('r', '5');
+                    //console.log(d3.selectAll('circle').selectAll('p' + d['flight_index']));
+                })
+                .on('mouseout', function(d) {
+                    d3.selectAll('.p' + d['flight_index'])
+                        .transition()
+                        .duration(500)
+                        .attr('r', '3');
                 });
         }
       }
