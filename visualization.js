@@ -65,7 +65,6 @@ d3.csv('challenger.csv', function(csvData) {
           for(var i = 0; i < d3.selectAll(data).size(); i++){
               pointToggle.push(false);
           }
-            console.log(pointToggle);
             
           circle.enter()
                 .append('svg:circle')
@@ -101,7 +100,6 @@ d3.csv('challenger.csv', function(csvData) {
                     } else {
                         pointToggle[d[vals[0]]] = false;
                     }
-                    console.log(pointToggle);
                     
                 });
         }
