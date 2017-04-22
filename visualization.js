@@ -68,10 +68,11 @@ d3.csv('challenger.csv', function(csvData) {
                 .attr('r', 3)
                 .attr("class", function(d) { return 'p' + d['flight_index'] + ' ' + 'g' + xVal + yVal; })
                 .on('mouseover', function(d) {
+                    var chart = getChartEncodingForPoint(this.classList);
                     d3.select(this).append('svg:title')
                       .style('font-size', '50px')
                       .style('color', '#fff000')
-                      .text(getSpecificValuesForChart(this.classList));
+                      .text(getHoverText(d, chart));
                     d3.selectAll('.p' + d['flight_index'])
                         .transition()
                         .duration(500)
@@ -92,19 +93,109 @@ d3.csv('challenger.csv', function(csvData) {
 });
 
 //Get the chart that is responsible for the data
-function getSpecificValuesForChart(chartString){
-    switch(chartString.contains('glaunch_tempflight_index')) {
-    case n:
-        code block
-        break;
-    case n:
-        code block
-        break;
-    default:
-        code block
+function getChartEncodingForPoint(chartString){
+    var str = chartString.value;
+    var text;
+    switch(str.substring(str.indexOf('g'))) {
+        case 'glaunch_templeak_check_pressure':
+            text = 'templeak';
+            break;
+        case 'gnum_o_ring_distressleak_check_pressure':
+            text = 'ringsleak';
+            break;
+        case 'gflight_indexleak_check_pressure':
+            text = 'indexleak';
+            break;
+        case 'gleak_check_pressurelaunch_temp':
+            text = 'leaktemp';
+            break;
+        case 'gnum_o_ring_distresslaunch_temp':
+            text = 'ringstemp';
+            break;
+        case 'gflight_indexlaunch_temp':
+            text = 'indextemp';
+            break;
+        case 'gleak_check_pressurenum_o_ring_distress':
+            text = 'leakrings';
+            break;
+        case 'glaunch_tempnum_o_ring_distress':
+            text = 'temprings';
+            break;
+        case 'gflight_indexnum_o_ring_distress':
+            text = 'indexrings';
+            break;
+        case 'gleak_check_pressureflight_index':
+            text = 'leakindex';
+            break;
+        case 'glaunch_tempflight_index':
+            text = 'tempindex';
+            break;
+        case 'gnum_o_ring_distressflight_index':
+            text = 'ringsindex';
+            break;
+        default:
+            console.log('Could not figure out which graph the point is associated with');
+    }
+    return text;
 }
-    console.log(chartString);
-    
+
+//Takes in the data of the point and the chart value returned from getChartEncodingForPoint to return the hover over string data. 
+
+function getHoverText(d, chart){
+    var text;
+    switch(chart) {
+        case 'templeak':
+            text = '(' + d[vals[2]] + 
+                    ', ' + d[vals[3]] + ')';
+            break;
+        case 'ringsleak':
+            text = '(' + d[vals[1]] + 
+                    ', ' + d[vals[3]] + ')';
+            break;
+        case 'indexleak':
+            text = '(' + d[vals[0]] + 
+                    ', ' + d[vals[3]] + ')';
+            break;
+        case 'leaktemp':
+            text = '(' + d[vals[3]] + 
+                    ', ' + d[vals[2]] + ')';
+            break;
+        case 'ringstemp':
+            text = '(' + d[vals[1]] + 
+                    ', ' + d[vals[2]] + ')';
+            break;
+        case 'indextemp':
+            text = '(' + d[vals[0]] + 
+                    ', ' + d[vals[2]] + ')';
+            break;
+        case 'leakrings':
+            text = '(' + d[vals[3]] + 
+                    ', ' + d[vals[1]] + ')';
+            break;
+        case 'temprings':
+            text = '(' + d[vals[2]] + 
+                    ', ' + d[vals[1]] + ')';
+            break;
+        case 'indexrings':
+            text = '(' + d[vals[0]] + 
+                    ', ' + d[vals[1]] + ')';
+            break;
+        case 'leakindex':
+            text = '(' + d[vals[3]] + 
+                    ', ' + d[vals[0]] + ')';
+            break;
+        case 'tempindex':
+            text = '(' + d[vals[2]] + 
+                    ', ' + d[vals[0]] + ')';
+            break;
+        case 'ringsindex':
+            text = '(' + d[vals[1]] + 
+                    ', ' + d[vals[0]] + ')';
+            break;
+        default:
+            console.log('Could not get data.');
+    }
+    return text;
 }
 
 //Sets up the axis and labels for the axis depending on which chart it is.
