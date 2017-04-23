@@ -29,3 +29,17 @@ td{
 .tick line {
   opacity: 0.2;
 }
+
+.axis2 path,
+.axis2 line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.label2 {
+    text-anchor: middle;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
