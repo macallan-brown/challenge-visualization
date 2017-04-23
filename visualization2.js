@@ -58,6 +58,7 @@ d3.csv('challenger.csv', function(csvData) {
                 }
             })
             .on('click', function(d) {
+                d3.selectAll('path').attr('opacity', 0.2);
                 var temp = d3.select(this).attr("class").substring(1);
                 var index = parseInt(temp);
                 if(pointToggle[index] == false) {
