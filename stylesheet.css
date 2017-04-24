@@ -1,3 +1,6 @@
+#visSVG2 {
+    display:none;
+}
 .varlabel{
   font-size: 30px;
   text-align: center;
@@ -42,4 +45,8 @@ td{
     font-size: 12px;
     font-weight: bold;
     cursor: pointer;
+}
+
+.chartTitle {
+    
 }

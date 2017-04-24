@@ -6,13 +6,20 @@ width = 800;
 offset = 30;
 lineDataSet = []; 
 
-
 d3.csv('challenger.csv', function(csvData) {
     data = csvData;
+    
+    //Create Title
     
     svg = d3.select('#visSVG2').append('svg:svg')
 				.attr('width', width)
 				.attr('height', height);
+    
+    var lineAttributeDiv = d3.select('#visSVG2').append('div')
+        .attr('width', width)
+        .attr('height', offset)
+        .attr('class', 'chartTitle')
+        .text("Hover over something to see data.");
     
     xScale = d3.scale.linear()
         .domain([0, 60])
@@ -32,6 +39,7 @@ d3.csv('challenger.csv', function(csvData) {
     
     parseData(data);
     
+    
      var lineFunction = d3.svg.line()
         .x(function(d) { return xScale(d.x); })
         .y(function(d) { return yScale(d.y); })
@@ -46,21 +54,32 @@ d3.csv('challenger.csv', function(csvData) {
             .attr('stroke', colorFunction(lineDataSet[i]))
             .attr('stroke-width', 3)
             .attr('fill', 'none')
+            .attr('stroke-opacity', 0.3)
             .attr("class", function(d) { return 'l' + lineDataSet[i][3].y; })
             .on('mouseover', function(d) {
-                d3.select(this).style('stroke-width', 6);
+                d3.select(this).style('stroke-width', 6)
+                    .attr('stroke-opacity', 1.0);
+                var index = parseInt(d3.select(this).attr('class').substring(1)) -1;
+                var displayText = "Launch Temperature: " + data[index].launch_temp +
+                                " degrees F, Number of O-Rings Distressed: " + data[index].num_o_ring_distress +
+                                ", Leak Check Pressure: " + data[index].leak_check_pressure +
+                                ", Flight Index: " + data[index].flight_index;
+            
+            
+                lineAttributeDiv.text("\n" +displayText);
             })
             .on('mouseout', function(d) {
                 var temp = d3.select(this).attr("class").substring(1);
-                var index = parseInt(temp);
+                var index = parseInt(temp) -1;
+                lineAttributeDiv.text("Hover over something to see data.");
                 if(pointToggle[index] == false){
-                    d3.select(this).style('stroke-width', 3);
+                    d3.select(this).style('stroke-width', 3)
+                        .attr('stroke-opacity', 0.3);
                 }
             })
             .on('click', function(d) {
-                d3.selectAll('path').attr('opacity', 0.2);
                 var temp = d3.select(this).attr("class").substring(1);
-                var index = parseInt(temp);
+                var index = parseInt(temp) -1;
                 if(pointToggle[index] == false) {
                         pointToggle[index] = true;
                     } else {
