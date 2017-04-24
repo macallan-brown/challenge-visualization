@@ -37,7 +37,7 @@ d3.csv('challenger.csv', function(csvData) {
     chartDescriptionDiv.append('p')
         .text("Click a line to toggle it as selected.");
     chartDescriptionDiv.append('p')
-        .text("The color of the line is based on the number of O-Rings damaged in the flight (Green = 0, Yellow = 1, Red = 2).");
+        .text("The color of the line is based on the number of O-Rings damaged in the flight (Green = 0, Yellow = 1, Red = 2). Coloring the lines this way acts as a second encoding for one of the most important variables, O-Ring Damage. The other important variable to highlight is the Launch Temperature which is displayed on the far left so it is the first variable that people will read.");
 
 
     svg = d3.select('#visSVG2').append('svg:svg')
