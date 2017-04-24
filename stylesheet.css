@@ -1,5 +1,17 @@
+body{
+    font: 15px arial, sans-serif;
+}
 #visSVG2 {
     display:none;
+}
+.button {
+    background-color: aqua;
+    width: 200px;
+    font-size: 16px;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+    text-align: center;
 }
 .varlabel{
   font-size: 30px;

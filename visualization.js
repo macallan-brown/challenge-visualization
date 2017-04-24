@@ -65,6 +65,7 @@ d3.csv('challenger.csv', function(csvData) {
           for(var i = 0; i < d3.selectAll(data).size(); i++){
               pointToggle.push(false);
           }
+            console.log(pointToggle);
             
           circle.enter()
                 .append('svg:circle')
@@ -86,7 +87,8 @@ d3.csv('challenger.csv', function(csvData) {
                     //console.log(d3.selectAll('circle').selectAll('p' + d['flight_index']));
                 })
                 .on('mouseout', function(d) {
-                    if(pointToggle[d[vals[0]]] == false){
+                    var index = d[vals[0]]-1;
+                    if(pointToggle[index] == false){
                         d3.selectAll('.p' + d['flight_index'])
                         .transition()
                         .duration(500) 
@@ -95,10 +97,11 @@ d3.csv('challenger.csv', function(csvData) {
                     }
                 })
                 .on('click', function(d) {
-                    if(pointToggle[d[vals[0]]] == false) {
-                        pointToggle[d[vals[0]]] = true;
+                    var index = d[vals[0]]-1;
+                    if(pointToggle[index] == false) {
+                        pointToggle[index] = true;
                     } else {
-                        pointToggle[d[vals[0]]] = false;
+                        pointToggle[index] = false;
                     }
                     
                 });

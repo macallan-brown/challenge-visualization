@@ -5,11 +5,29 @@ height = 500;
 width = 800;
 offset = 30;
 lineDataSet = []; 
+parallelText = "Show Data in Parallel";
+splomText = "Show Data in SPLOM";
 
 d3.csv('challenger.csv', function(csvData) {
     data = csvData;
     
     //Create Title
+    var showOtherVis = d3.select('#showOtherVisButton')
+        .text(parallelText)
+        .on('click', function(d) {
+            if(d3.select(this).text() == splomText) {
+                d3.select('#visSVG1').style('display', 'block');
+                d3.select('#visSVG2').style('display', 'none');
+                d3.select(this).text(parallelText);
+                
+            } else {
+                d3.select('#visSVG2').style('display', 'block');
+                d3.select('#visSVG1').style('display', 'none');
+                d3.select(this).text(splomText);
+            }
+            
+        });
+            
     
     svg = d3.select('#visSVG2').append('svg:svg')
 				.attr('width', width)
