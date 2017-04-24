@@ -4,13 +4,13 @@ yVal2 = vals[0];
 height = 500;
 width = 800;
 offset = 30;
-lineDataSet = []; 
+lineDataSet = [];
 parallelText = "Show Data in Parallel";
 splomText = "Show Data in SPLOM";
 
 d3.csv('challenger.csv', function(csvData) {
     data = csvData;
-    
+
     //Create Title
     var showOtherVis = d3.select('#showOtherVisButton')
         .text(parallelText)
@@ -19,52 +19,57 @@ d3.csv('challenger.csv', function(csvData) {
                 d3.select('#visSVG1').style('display', 'block');
                 d3.select('#visSVG2').style('display', 'none');
                 d3.select(this).text(parallelText);
-                
+
             } else {
                 d3.select('#visSVG2').style('display', 'block');
                 d3.select('#visSVG1').style('display', 'none');
                 d3.select(this).text(splomText);
             }
-            
+
         });
-    
-    var lineAttributeDiv = d3.select('#visSVG2').append('div')
+
+    var chartDescriptionDiv = d3.select('#visSVG2').append('div')
         .attr('width', width)
         .attr('height', offset)
-        .attr('class', 'chartTitle')
-        .text("Hover over something to see data.");
-            
-    
+        .attr('class', 'chartTitle');
+    chartDescriptionDiv.append('p')
+        .text("Hover over a line to see the data for that flight below the axis labels.");
+    chartDescriptionDiv.append('p')
+        .text("Click a line to toggle it as selected.");
+    chartDescriptionDiv.append('p')
+        .text("The color of the line is based on the number of O-Rings damaged in the flight (Green = 0, Yellow = 1, Red = 2).");
+
+
     svg = d3.select('#visSVG2').append('svg:svg')
 				.attr('width', width)
 				.attr('height', height);
-    
+
     xScale = d3.scale.linear()
         .domain([0, 60])
         .range([offset + margin, width - margin - offset]);
-    
+
     xAxis = d3.svg.axis()
         .scale(xScale)
         .orient('bottom')
         .innerTickSize(-(height - 60))
         .outerTickSize(0)
         .ticks(4);
-    
+
     yScale = d3.scale.linear()
         .domain([d3.min(data, function(d) { return parseFloat(d[yVal2]); })-1,
                       d3.max(data, function(d) { return parseFloat(d[yVal2]); })+1])
         .range([height - offset - margin, margin + offset]);
-    
+
     parseData(data);
-    
-    
+
+
      var lineFunction = d3.svg.line()
         .x(function(d) { return xScale(d.x); })
         .y(function(d) { return yScale(d.y); })
         .interpolate("linear");
-    
+
     var pointToggle = [];
-    
+
     for(var i = 0; i < lineDataSet.length; i++) {
         pointToggle.push(false);
         svg.append('path')
@@ -101,7 +106,7 @@ d3.csv('challenger.csv', function(csvData) {
                     }
             });
     }
-    
+
     for(var i = 0; i < 4; i++) {
         var yOrder = ['launch_temp', 'num_o_ring_distress', 'leak_check_pressure', 'flight_index'];
         var yOrderTitle = ['Launch Temp', 'Number of O-Rings Distressed', 'Leak Check Pressure' , 'Flight Index'];
@@ -109,19 +114,19 @@ d3.csv('challenger.csv', function(csvData) {
                   .domain([d3.min(data, function(d) { return parseFloat(d[yOrder[i]]); })-1,
                       d3.max(data, function(d) { return parseFloat(d[yOrder[i]]); })+1])
                   .range([height - offset - margin, margin + offset]);
-        
+
         yAxis = d3.svg.axis()
         .scale(yScale2)
         .orient('left')
         .innerTickSize(0)
         .outerTickSize(0)
         .ticks(4);
-    
+
         yAxisG = svg.append('g')
             .attr('class', 'axis')
             .attr('transform', 'translate(' +  xScale(i*20) + ',0)')
             .call(yAxis);
-        
+
         yLabel = svg.append('text')
             .attr('class','label2')
             .attr('x', xScale(i*20))
@@ -132,11 +137,11 @@ d3.csv('challenger.csv', function(csvData) {
             .attr('class','label2')
             .attr('x', xScale(i*20))
             .attr('y', height - 5)
-            .text('3838');
-            
+            .text('');
+
 
     }
-	
+
 });
 
 function parseData(data) {
@@ -146,7 +151,7 @@ function parseData(data) {
                          {"x": 40, "y": leakScale(parseFloat(data[i].leak_check_pressure))},
                          {"x": 60, "y": parseFloat(data[i].flight_index)}];
         lineDataSet.push(tempObject);
-        
+
     }
 }
 
@@ -183,5 +188,3 @@ function colorFunction(line) {
         return "green";
     }
 }
-
-    

@@ -1,3 +1,0 @@
-vals = ['flight_index','num_o_ring_distress','launch_temp','leak_check_pressure'];
-xVal = vals[0];
-yVal = vals[0];

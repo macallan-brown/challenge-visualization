@@ -10,7 +10,14 @@ yVal = vals[0];
 
 d3.csv('challenger.csv', function(csvData) {
     data = csvData;
-
+    var chartDescriptionDiv = d3.select('#visSVG1').append('div')
+        .attr('width', width)
+        .attr('height', offset)
+        .attr('class', 'chartTitle');
+    chartDescriptionDiv.append('p')
+        .text("Hover over a point to see the x and y values for that particular chart and all the other points that represent the same flight.");
+    chartDescriptionDiv.append('p')
+        .text("Click a point to toggle it as selected.");
     for (var x in vals) {
       tableRow = d3.select('#visSVG1').append('tr:tr');
       for(var y in vals) {
@@ -66,7 +73,7 @@ d3.csv('challenger.csv', function(csvData) {
               pointToggle.push(false);
           }
             console.log(pointToggle);
-            
+
           circle.enter()
                 .append('svg:circle')
                 .attr('cx', function(d) {return xScale(d[xVal]); })
@@ -91,7 +98,7 @@ d3.csv('challenger.csv', function(csvData) {
                     if(pointToggle[index] == false){
                         d3.selectAll('.p' + d['flight_index'])
                         .transition()
-                        .duration(500) 
+                        .duration(500)
                         .style('fill', '#000000')
                         .attr('r', 3);
                     }
@@ -103,7 +110,7 @@ d3.csv('challenger.csv', function(csvData) {
                     } else {
                         pointToggle[index] = false;
                     }
-                    
+
                 });
         }
       }
@@ -159,57 +166,57 @@ function getChartEncodingForPoint(chartString){
     return text;
 }
 
-//Takes in the data of the point and the chart value returned from getChartEncodingForPoint to return the hover over string data. 
+//Takes in the data of the point and the chart value returned from getChartEncodingForPoint to return the hover over string data.
 
 function getHoverText(d, chart){
     var text;
     switch(chart) {
         case 'templeak':
-            text = '(' + d[vals[2]] + 
+            text = '(' + d[vals[2]] +
                     ', ' + d[vals[3]] + ')';
             break;
         case 'ringsleak':
-            text = '(' + d[vals[1]] + 
+            text = '(' + d[vals[1]] +
                     ', ' + d[vals[3]] + ')';
             break;
         case 'indexleak':
-            text = '(' + d[vals[0]] + 
+            text = '(' + d[vals[0]] +
                     ', ' + d[vals[3]] + ')';
             break;
         case 'leaktemp':
-            text = '(' + d[vals[3]] + 
+            text = '(' + d[vals[3]] +
                     ', ' + d[vals[2]] + ')';
             break;
         case 'ringstemp':
-            text = '(' + d[vals[1]] + 
+            text = '(' + d[vals[1]] +
                     ', ' + d[vals[2]] + ')';
             break;
         case 'indextemp':
-            text = '(' + d[vals[0]] + 
+            text = '(' + d[vals[0]] +
                     ', ' + d[vals[2]] + ')';
             break;
         case 'leakrings':
-            text = '(' + d[vals[3]] + 
+            text = '(' + d[vals[3]] +
                     ', ' + d[vals[1]] + ')';
             break;
         case 'temprings':
-            text = '(' + d[vals[2]] + 
+            text = '(' + d[vals[2]] +
                     ', ' + d[vals[1]] + ')';
             break;
         case 'indexrings':
-            text = '(' + d[vals[0]] + 
+            text = '(' + d[vals[0]] +
                     ', ' + d[vals[1]] + ')';
             break;
         case 'leakindex':
-            text = '(' + d[vals[3]] + 
+            text = '(' + d[vals[3]] +
                     ', ' + d[vals[0]] + ')';
             break;
         case 'tempindex':
-            text = '(' + d[vals[2]] + 
+            text = '(' + d[vals[2]] +
                     ', ' + d[vals[0]] + ')';
             break;
         case 'ringsindex':
-            text = '(' + d[vals[1]] + 
+            text = '(' + d[vals[1]] +
                     ', ' + d[vals[0]] + ')';
             break;
         default:
