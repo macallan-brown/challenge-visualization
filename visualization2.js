@@ -27,17 +27,17 @@ d3.csv('challenger.csv', function(csvData) {
             }
             
         });
-            
-    
-    svg = d3.select('#visSVG2').append('svg:svg')
-				.attr('width', width)
-				.attr('height', height);
     
     var lineAttributeDiv = d3.select('#visSVG2').append('div')
         .attr('width', width)
         .attr('height', offset)
         .attr('class', 'chartTitle')
         .text("Hover over something to see data.");
+            
+    
+    svg = d3.select('#visSVG2').append('svg:svg')
+				.attr('width', width)
+				.attr('height', height);
     
     xScale = d3.scale.linear()
         .domain([0, 60])
@@ -78,18 +78,14 @@ d3.csv('challenger.csv', function(csvData) {
                 d3.select(this).style('stroke-width', 6)
                     .attr('stroke-opacity', 1.0);
                 var index = parseInt(d3.select(this).attr('class').substring(1)) -1;
-                var displayText = "Launch Temperature: " + data[index].launch_temp +
-                                " degrees F, Number of O-Rings Distressed: " + data[index].num_o_ring_distress +
-                                ", Leak Check Pressure: " + data[index].leak_check_pressure +
-                                ", Flight Index: " + data[index].flight_index;
-            
-            
-                lineAttributeDiv.text("\n" +displayText);
+                d3.select('#y_value_id_0').text(data[index].launch_temp + ' F');
+                d3.select('#y_value_id_1').text(data[index].num_o_ring_distress);
+                d3.select('#y_value_id_2').text(data[index].leak_check_pressure);
+                d3.select('#y_value_id_3').text(data[index].flight_index);
             })
             .on('mouseout', function(d) {
                 var temp = d3.select(this).attr("class").substring(1);
                 var index = parseInt(temp) -1;
-                lineAttributeDiv.text("Hover over something to see data.");
                 if(pointToggle[index] == false){
                     d3.select(this).style('stroke-width', 3)
                         .attr('stroke-opacity', 0.3);
@@ -108,7 +104,7 @@ d3.csv('challenger.csv', function(csvData) {
     
     for(var i = 0; i < 4; i++) {
         var yOrder = ['launch_temp', 'num_o_ring_distress', 'leak_check_pressure', 'flight_index'];
-        var yOrderTitle = ['Launch Temp F', 'Number of O-Rings Distressed', 'Leak Check Pressure' , 'Flight Index'];
+        var yOrderTitle = ['Launch Temp', 'Number of O-Rings Distressed', 'Leak Check Pressure' , 'Flight Index'];
         yScale2 = d3.scale.linear()
                   .domain([d3.min(data, function(d) { return parseFloat(d[yOrder[i]]); })-1,
                       d3.max(data, function(d) { return parseFloat(d[yOrder[i]]); })+1])
@@ -127,10 +123,17 @@ d3.csv('challenger.csv', function(csvData) {
             .call(yAxis);
         
         yLabel = svg.append('text')
-				.attr('class','label2')
-				.attr('x', xScale(i*20))
-				.attr('y', height -10)
-				.text(yOrderTitle[i]);
+            .attr('class','label2')
+            .attr('x', xScale(i*20))
+            .attr('y', height -25)
+            .text(yOrderTitle[i]);
+        yLabelValue = svg.append('text')
+            .attr('id', 'y_value_id_' + i)
+            .attr('class','label2')
+            .attr('x', xScale(i*20))
+            .attr('y', height - 5)
+            .text('3838');
+            
 
     }
 	
